@@ -1,0 +1,10 @@
+.welcome-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
