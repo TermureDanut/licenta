@@ -1,0 +1,17 @@
+.menu {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+  background-color: #000080;
+}
+
+.buttons {
+  width: 200px;
+  height: 60px;
+  background-color: #000080;
+  margin-top: 10px;
+  color: white;
+  border: 0;
+}

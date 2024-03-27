@@ -1,9 +1,13 @@
-.text {
+.header .text {
+    width: 300px;
     font-size: 20px;
     font-family: "Arial", sans-serif;
+    color: white;
+    padding-left: 15px;
 }
+
 
 .header {
     height: 60px;
-    background-color: grey;
+    background-color: #000080;
 }

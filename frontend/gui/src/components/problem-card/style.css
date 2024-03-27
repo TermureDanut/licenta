@@ -1,0 +1,50 @@
+.problem-card {
+    width: 1550px;
+    height: 400px;
+    background-color: #000080;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    box-sizing: border-box;
+}
+
+
+.problemInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 80%;
+}
+
+.solveButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    width: 100%;
+    height: 20%;
+}
+
+.buttonStyle {
+    width: 200px;
+    height: 60px;
+    background-color: white;
+    margin-top: 10px;
+    margin-right: 10px;
+    color: black;
+    border: 0;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buttonStyle:hover {
+    background-color: grey;
+}

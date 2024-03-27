@@ -45,3 +45,11 @@ testem.log
 .DS_Store
 Thumbs.db
 backend/api/target/
+/backend/api/api/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+/backend/api/api/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+/backend/api/api/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+/backend/api/api/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
+/backend/api/api/.mvn/wrapper/maven-wrapper.jar
+/backend/api/api/.mvn/wrapper/maven-wrapper.properties
+/backend/api/api/mvnw
+/backend/api/api/mvnw.cmd
