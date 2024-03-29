@@ -1,0 +1,65 @@
+.mainArea {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.problemArea {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 60px;
+    padding-left: 20px;
+}
+
+.problemTags {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    padding-top: 10px;
+}
+
+.solvingArea {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 10px;
+}
+
+.idAndNameDiv {
+    height: 20%;
+    font-size: 30px;
+}
+
+.pbRequirement {
+    height: 30%;
+    font-size: 20px;
+}
+
+.codeArea {
+    height: 500px;
+    width: 99%;
+    font-size: 18px;
+    resize: none
+}
+
+.buttonsDiv {
+    width: 98%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.executeArea {
+    height: 300px;
+    width: 99%;
+    font-size: 18px;
+    resize: none;
+}

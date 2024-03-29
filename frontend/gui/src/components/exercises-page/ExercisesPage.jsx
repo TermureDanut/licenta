@@ -100,7 +100,7 @@ const ExercisesPage = () => {
                     ) : (
                         <div className="problems">
                             {problemList.map((problem, index) => (
-                                <ProblemCard key={index} infoProblem={problem}/>
+                                <ProblemCard key={index} infoProblem={problem} teacherData={teacherData}/>
                             ))}
                         </div>
                     )}
