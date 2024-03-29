@@ -4,8 +4,9 @@ import WelcomePage from "./components/main-page/WelcomePage";
 import TeacherPage from "./components/teacher-page/TeacherPage";
 import ExercisesPage from "./components/exercises-page/ExercisesPage";
 import AddProblem from "./components/add-problem/AddProblem";
+import SolveProblemPage from "./components/solve-problem-page/SolveProblemPage";
 
-function AppRoutes() {
+function AppRoutes({problemId}) {
     return (
         <Router>
             <Routes>
@@ -13,6 +14,7 @@ function AppRoutes() {
                 <Route path="/teacher" element={<TeacherPage/>}/>
                 <Route path="/exercises" element={<ExercisesPage/>}/>
                 <Route path="/teacher/new/problem" element={<AddProblem/>}/>
+                <Route path='/solve/problem' element={<SolveProblemPage/>}/>
             </Routes>
         </Router>
     );

@@ -21,6 +21,8 @@ backend/api/mvnw
 backend/api/mvnw.cmd
 backend/api/.mvn
 
+backend/api/api/target
+
 frontend/gui/.angular/*
 frontend/gui/.vscode/*
 frontend/gui/node_modules/*
