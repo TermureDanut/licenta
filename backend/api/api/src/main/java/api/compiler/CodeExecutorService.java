@@ -17,7 +17,7 @@ public class CodeExecutorService {
 
         createFiles(cppCode, inputData);
 
-        ProcessBuilder startContainerBuilder = new ProcessBuilder("docker", "run", "-t", "-d", "--name", CONTAINER_NAME, "cpp-runner:latest");
+        ProcessBuilder startContainerBuilder = new ProcessBuilder("docker", "start", CONTAINER_NAME);
         Process startContainerProcess = startContainerBuilder.start();
         startContainerProcess.waitFor();
 
@@ -52,13 +52,13 @@ public class CodeExecutorService {
         Files.deleteIfExists(Paths.get(cppFileName));
         Files.deleteIfExists(Paths.get(inputFileName));
 
-        ProcessBuilder stopContainerBuilder = new ProcessBuilder("docker", "stop", CONTAINER_NAME);
-        Process stopContainerProcess = stopContainerBuilder.start();
-        stopContainerProcess.waitFor();
+        //        ProcessBuilder stopContainerBuilder = new ProcessBuilder("docker", "stop", CONTAINER_NAME);
+        //        Process stopContainerProcess = stopContainerBuilder.start();
+        //        stopContainerProcess.waitFor();
 
-        ProcessBuilder removeContainerBuilder = new ProcessBuilder("docker", "rm", CONTAINER_NAME);
-        Process removeContainerProcess = removeContainerBuilder.start();
-        removeContainerProcess.waitFor();
+        //        ProcessBuilder removeContainerBuilder = new ProcessBuilder("docker", "rm", CONTAINER_NAME);
+        //        Process removeContainerProcess = removeContainerBuilder.start();
+        //        removeContainerProcess.waitFor();
 
         if (!errorOutput.toString().isEmpty()) {
             return errorOutput.toString();
