@@ -9,4 +9,6 @@ public interface InfoProblemsRepository extends JpaRepository<InfoProblem, Long>
     Page<InfoProblem> findAll(Pageable pageable);
 
     Page<InfoProblem> findByCategory(String category, Pageable pageable);
+
+    Page<InfoProblem> findByDifOption(String difOption, Pageable pageable);
 }

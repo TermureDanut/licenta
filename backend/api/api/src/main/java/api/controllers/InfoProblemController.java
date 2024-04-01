@@ -29,8 +29,13 @@ public class InfoProblemController {
         return infoProblemService.getAll(page, size);
     }
 
-    @GetMapping("filtered")
-    public Page<InfoProblem> filter(@RequestParam String category, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-        return infoProblemService.filter(category, page, size);
+    @GetMapping("filtered/category")
+    public Page<InfoProblem> filterCategory(@RequestParam String category, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        return infoProblemService.filterCategory(category, page, size);
+    }
+
+    @GetMapping("filtered/difficulty")
+    public Page<InfoProblem> filterDifficulty(@RequestParam String difficulty, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        return infoProblemService.filterDifficulty(difficulty, page, size);
     }
 }

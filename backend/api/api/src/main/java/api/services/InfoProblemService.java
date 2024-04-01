@@ -36,8 +36,13 @@ public class InfoProblemService {
         return infoProblemsRepository.findAll(pageable);
     }
 
-    public Page<InfoProblem> filter(String category, int page, int size) {
+    public Page<InfoProblem> filterCategory(String category, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return infoProblemsRepository.findByCategory(category, pageable);
+    }
+
+    public Page<InfoProblem> filterDifficulty(String difficulty, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return infoProblemsRepository.findByDifOption(difficulty, pageable);
     }
 }
