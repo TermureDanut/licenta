@@ -17,6 +17,8 @@ const ExercisesPage = () => {
     const [problemList, setProblemList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [category, setCategory] = useState("");
+    const [dif, setDif] = useState(false);
+    const [difOption, setDifOption] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -26,9 +28,15 @@ const ExercisesPage = () => {
             await simulatedDelay(1000);
             const size = 5;
             const baseUrl = 'http://localhost:8080/api/infoproblem';
-            const url = category
-                ? `${baseUrl}/filtered?category=${category}&page=${currentPage - 1}&size=${size}`
-                : `${baseUrl}/all?page=${currentPage - 1}&size=${size}`;
+            let url = '';
+
+            if (dif) {
+                url = `${baseUrl}/filtered/difficulty?difficulty=${difOption}&page=${currentPage - 1}&size=${size}`;
+            } else if (category) {
+                url = `${baseUrl}/filtered/category?category=${category}&page=${currentPage - 1}&size=${size}`;
+            } else {
+                url = `${baseUrl}/all?page=${currentPage - 1}&size=${size}`;
+            }
 
             try {
                 const response = await fetch(url);
@@ -47,12 +55,21 @@ const ExercisesPage = () => {
         };
 
         fetchProblems();
-    }, [currentPage, category]);
+    }, [currentPage, category, dif, difOption]);
 
 
     const handleCategoryChange = (newCategory, newSectionName) => {
         setCurrentPage(1);
         setCategory(newCategory);
+        setSectionName(newSectionName);
+        setDif(false);
+    };
+
+    const handleDifChange = (dif, newDifOption, newSectionName) => {
+        setCurrentPage(1);
+        setDif(true);
+        setDifOption(newDifOption);
+        setCategory("");
         setSectionName(newSectionName);
     };
 
@@ -70,6 +87,9 @@ const ExercisesPage = () => {
             <div className="exercisesArea">
                 <div className="sideMenu">
                     <button className="buttons" onClick={() => handleCategoryChange("", "Toate")}>Toate</button>
+                    <div>
+                        <p className="text">Categorie</p>
+                    </div>
                     <button className="buttons" onClick={() => handleCategoryChange("1", "Clasa a 9 a")}>Clasa a 9 a
                     </button>
                     <button className="buttons" onClick={() => handleCategoryChange("2", "Clasa a 10 a")}>Clasa a 10 a
@@ -77,6 +97,15 @@ const ExercisesPage = () => {
                     <button className="buttons" onClick={() => handleCategoryChange("3", "Clasa a 11 a")}>Clasa a 11 a
                     </button>
                     <button className="buttons" onClick={() => handleCategoryChange("4", "Bacalaureat")}>Bacalaureat
+                    </button>
+                    <div>
+                        <p className="text">Dificultate</p>
+                    </div>
+                    <button className="buttons" onClick={() => handleDifChange(true, "1", "Mica")}>Mica
+                    </button>
+                    <button className="buttons" onClick={() => handleDifChange(true, "2", "Medie")}>Medie
+                    </button>
+                    <button className="buttons" onClick={() => handleDifChange(true, "3", "Mare")}>Mare
                     </button>
                 </div>
                 <div className="problemsArea">
