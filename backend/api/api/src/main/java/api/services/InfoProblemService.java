@@ -45,4 +45,8 @@ public class InfoProblemService {
         Pageable pageable = PageRequest.of(page, size);
         return infoProblemsRepository.findByDifOption(difficulty, pageable);
     }
+
+    public InfoProblem getById(long id) {
+        return infoProblemsRepository.findById(id).orElse(null);
+    }
 }
