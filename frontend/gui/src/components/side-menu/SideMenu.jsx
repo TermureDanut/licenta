@@ -26,6 +26,10 @@ import {useState} from "react";
 import HomeIcon from '@mui/icons-material/Home';
 import ClassroomsList from "../classrooms-list/ClassroomsList";
 import {useNavigate} from "react-router-dom";
+import {Avatar, Menu, MenuItem} from "@mui/material";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const drawerWidth = 240;
 
@@ -55,7 +59,6 @@ const DrawerHeader = styled('div')(({theme}) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
 
@@ -94,12 +97,20 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
     }),
 );
 
-const SideMenu = ({teacherData}) => {
+const SideMenu = ({
+                      teacherData,
+                      adddedClassroom,
+                      inClassroomsPage,
+                      inHomePage,
+                      classroom
+                  }) => {
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [textInput, setTextInput] = useState("");
     const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorElAccount, setAnchorElAccount] = useState(null);
 
     const handleAddButtonClick = () => {
         setDialogOpen(true);
@@ -114,7 +125,8 @@ const SideMenu = ({teacherData}) => {
     };
 
     const handleAdd = async () => {
-        const response = await fetch(
+        console.log(teacherData);
+        await fetch(
             "http://localhost:8080/api/teachers/addClass/" + teacherData.id,
             {
                 method: "POST",
@@ -126,9 +138,10 @@ const SideMenu = ({teacherData}) => {
                 }),
             }
         );
-        const jsonResponse = await response.json();
+        //const jsonResponse = await response.json();
         setTextInput("");
         handleCloseDialog();
+        adddedClassroom(true);
     };
 
     const handleDrawerOpen = () => {
@@ -151,10 +164,30 @@ const SideMenu = ({teacherData}) => {
         });
     }
 
+    const handleDropDownClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleClickAccount = (event) => {
+        setAnchorElAccount(event.currentTarget);
+    };
+
+    const handleCloseAccount = () => {
+        setAnchorElAccount(null);
+    };
+    const firstLetter = teacherData.firstName.charAt(0).toUpperCase();
+    const handleLogout = () => {
+        navigate("/");
+    }
+
     return (
         <Box sx={{display: 'flex'}}>
             <CssBaseline/>
-            <AppBar position="fixed" sx={{backgroundColor: "#000080"}}>
+            <AppBar position="fixed" sx={{backgroundColor: "white"}}>
                 <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}}>
                     <Box sx={{display: 'flex'}}>
                         <IconButton
@@ -166,58 +199,156 @@ const SideMenu = ({teacherData}) => {
                                 marginRight: 5,
                             }}
                         >
-                            <MenuIcon/>
+                            <MenuIcon sx={{color: 'grey'}}/>
                         </IconButton>
-                        <Typography variant="h6" noWrap component="div">
-                            Hello {teacherData.firstName}
-                        </Typography>
-                        <Button sx={{
-                            marginLeft: 5, '&:hover': {
-                                backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                            },
-                        }} onClick={handleExercitiiClick}>
-                            <Typography variant="h7" sx={{color: 'white'}}>
+
+                        {inHomePage ?
+                            <div style={{display: 'flex', alignItems: 'center'}}>
+                                <Button sx={{
+                                    '&:hover': {
+                                        backgroundColor: 'initial',
+                                    },
+                                }} onClick={navigateHome}>
+                                    <Typography variant="h6" sx={{
+                                        color: 'grey', '&:hover': {
+                                            textDecoration: 'underline',
+                                        },
+                                    }}>
+                                        Classrooms
+                                    </Typography>
+                                </Button>
+                                {inClassroomsPage ?
+                                    <div>
+                                        <ArrowForwardIosIcon
+                                            sx={{fontSize: "small", marginLeft: 1, marginRight: 1, color: 'grey'}}/>
+                                        <Button sx={{
+                                            '&:hover': {
+                                                backgroundColor: 'initial',
+                                            },
+                                        }}>
+                                            <Typography variant="h6" sx={{
+                                                color: 'grey',
+                                                '&:hover': {
+                                                    textDecoration: 'underline',
+                                                },
+                                            }}>
+                                                {classroom.name}
+                                            </Typography>
+                                        </Button>
+                                    </div>
+                                    : <></>}
+                            </div>
+                            : <></>}
+                        <Button
+                            onClick={handleDropDownClick}
+                            endIcon={anchorEl ? <ArrowDropUpIcon sx={{color: 'grey'}}/> :
+                                <ArrowDropDownIcon sx={{color: 'grey'}}/>}
+                            sx={{
+                                marginLeft: 1,
+                                '&:hover': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                                },
+                            }}
+                        >
+                            <Typography variant="h7" sx={{color: 'grey'}}>
                                 Exercitii
                             </Typography>
                         </Button>
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={handleClose}>
+                                <Button sx={{
+                                    marginLeft: 2, '&:hover': {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                                    },
+                                }} onClick={handleExercitiiClick}>
+                                    <Typography variant="h7" sx={{color: 'black'}}>
+                                        Informatica
+                                    </Typography>
+                                </Button>
+                            </MenuItem>
+                        </Menu>
                     </Box>
 
                     <Box sx={{display: 'flex', alignItems: 'center'}}>
+                        {inClassroomsPage || inHomePage ?
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                onClick={handleAddButtonClick}
+                                edge="start"
+                                sx={{
+                                    marginRight: 5
+                                }}
+                            >
+                                <AddIcon sx={{color: 'grey'}}/>
+                            </IconButton> : <></>
+                        }
+
                         <IconButton
                             color="inherit"
                             aria-label="open drawer"
-                            onClick={handleAddButtonClick}
+                            onClick={handleClickAccount}
                             edge="start"
-                            sx={{
-                                marginRight: 5
+                            sx={{marginRight: 1}}
+                        >
+                            {/*{firstLetter ? (*/}
+                            {/*    <AccountCircleIcon sx={{color: 'grey'}}>{firstLetter}</AccountCircleIcon>*/}
+                            {/*) : (*/}
+                            {/*    <AccountCircleIcon sx={{color: 'grey'}}/>*/}
+                            {/*)}*/}
+                            <Avatar>{firstLetter}</Avatar>
+                        </IconButton>
+
+                        <Menu
+                            anchorEl={anchorElAccount}
+                            open={Boolean(anchorElAccount)}
+                            onClose={handleCloseAccount}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'right',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
                             }}
                         >
-                            <AddIcon/>
-                        </IconButton>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={() => {
-                            }}
-                            edge="start"
-                            sx={{
-                                marginRight: 5
-                            }}
-                        >
-                            <AccountCircleIcon/>
-                        </IconButton>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={() => {
-                            }}
-                            edge="start"
-                            sx={{
-                                marginRight: 5
-                            }}
-                        >
-                            <LogoutIcon/>
-                        </IconButton>
+                            <MenuItem onClick={handleCloseAccount}>
+                                <AccountCircleIcon sx={{color: 'grey', marginRight: 1}}/>
+                                Account
+                            </MenuItem>
+                            <MenuItem onClick={handleLogout}>
+                                <LogoutIcon sx={{color: 'grey', marginRight: 1}}/>
+                                Logout
+                            </MenuItem>
+                        </Menu>
+                        {/*<IconButton*/}
+                        {/*    color="inherit"*/}
+                        {/*    aria-label="open drawer"*/}
+                        {/*    onClick={() => {*/}
+                        {/*    }}*/}
+                        {/*    edge="start"*/}
+                        {/*    sx={{*/}
+                        {/*        marginRight: 5*/}
+                        {/*    }}*/}
+                        {/*>*/}
+                        {/*    <AccountCircleIcon sx={{color: 'grey'}}/>*/}
+                        {/*</IconButton>*/}
+                        {/*<IconButton*/}
+                        {/*    color="inherit"*/}
+                        {/*    aria-label="open drawer"*/}
+                        {/*    onClick={() => {*/}
+                        {/*    }}*/}
+                        {/*    edge="start"*/}
+                        {/*    sx={{*/}
+                        {/*        marginRight: 5*/}
+                        {/*    }}*/}
+                        {/*>*/}
+                        {/*    <LogoutIcon sx={{color: 'grey'}}/>*/}
+                        {/*</IconButton>*/}
                     </Box>
                 </Toolbar>
             </AppBar>
@@ -229,28 +360,6 @@ const SideMenu = ({teacherData}) => {
                 </DrawerHeader>
                 <Divider/>
                 <List>
-                    {/*{['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (*/}
-                    {/*    <ListItem key={text} disablePadding sx={{ display: 'block' }}>*/}
-                    {/*        <ListItemButton*/}
-                    {/*            sx={{*/}
-                    {/*                minHeight: 48,*/}
-                    {/*                justifyContent: open ? 'initial' : 'center',*/}
-                    {/*                px: 2.5,*/}
-                    {/*            }}*/}
-                    {/*        >*/}
-                    {/*            <ListItemIcon*/}
-                    {/*                sx={{*/}
-                    {/*                    minWidth: 0,*/}
-                    {/*                    mr: open ? 3 : 'auto',*/}
-                    {/*                    justifyContent: 'center',*/}
-                    {/*                }}*/}
-                    {/*            >*/}
-                    {/*                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}*/}
-                    {/*            </ListItemIcon>*/}
-                    {/*            <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />*/}
-                    {/*        </ListItemButton>*/}
-                    {/*    </ListItem>*/}
-                    {/*))}*/}
                     <ListItem key={"Acasa"} disablePadding sx={{display: 'block'}}>
                         <ListItemButton
                             sx={{
@@ -272,7 +381,7 @@ const SideMenu = ({teacherData}) => {
                             <ListItemText primary={"Acasa"} sx={{opacity: open ? 1 : 0}}/>
                         </ListItemButton>
                     </ListItem>
-                    <ClassroomsList drawerOpen={open}/>
+                    <ClassroomsList drawerOpen={open} teacherData={teacherData}/>
                 </List>
             </Drawer>
             <Dialog

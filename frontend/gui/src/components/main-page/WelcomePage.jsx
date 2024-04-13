@@ -40,7 +40,7 @@ const WelcomePage = () => {
             if (jsonResponse.hasOwnProperty("studentFlag")) {
             } else {
                 navigate("/teacher", {
-                    state: {teacherData: jsonResponse.teacher},
+                    state: {teacherData: jsonResponse},
                 });
             }
         } else {
@@ -61,7 +61,7 @@ const WelcomePage = () => {
                             className="input-bars"
                             onChange={handleEmailChange}
                         />
-                        <div style={{display: 'flex', alignItems: 'center'}}>
+                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                             <input
                                 type={showPassword ? 'text' : 'password'}
                                 placeholder="Enter password"
@@ -70,6 +70,7 @@ const WelcomePage = () => {
                             />
                             <IconButton onClick={togglePasswordVisibility}
                                         style={{
+                                            marginTop: '10px',
                                             color: 'black',
                                             backgroundColor: 'white',
                                             width: '40px',

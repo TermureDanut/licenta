@@ -83,7 +83,7 @@ const ExercisesPage = () => {
 
     return (
         <div className="mainArea">
-            <SideMenu teacherData={teacherData}/>
+            <SideMenu teacherData={teacherData} inExercisesPage={true} category={category}/>
             <div className="exercisesArea">
                 <div className="sideMenu">
                     <button className="buttons" onClick={() => handleCategoryChange("", "Toate")}>Toate</button>

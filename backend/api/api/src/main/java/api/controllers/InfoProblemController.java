@@ -1,6 +1,7 @@
 package api.controllers;
 
 import api.entities.InfoProblem;
+import api.entities.InfoProblemRequest;
 import api.services.InfoProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,12 +19,12 @@ public class InfoProblemController {
     private InfoProblemService infoProblemService;
 
     @PostMapping("new/{teacherId}")
-    public InfoProblem addProblem(@PathVariable("teacherId") long teacherId, @RequestBody InfoProblem infoProblem) {
-        InfoProblem infoProblem1 = infoProblemService.addProblem(teacherId, infoProblem);
-        if (infoProblem1 != null) {
-            return infoProblem1;
+    public ResponseEntity<InfoProblem> addProblem(@PathVariable("teacherId") long teacherId, @RequestBody InfoProblemRequest infoProblemRequest) {
+        InfoProblem infoProblem = infoProblemService.addProblem(teacherId, infoProblemRequest);
+        if (infoProblem != null) {
+            return new ResponseEntity<>(infoProblem, HttpStatus.OK);
         }
-        return null;
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("all")

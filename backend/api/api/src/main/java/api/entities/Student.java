@@ -1,7 +1,11 @@
 package api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -9,42 +13,39 @@ import lombok.Setter;
 //import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 //import java.util.Base64;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "t_students")
+@Table
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Student {
     @Id
-    @GeneratedValue
-    @Getter
-    @Setter
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "first_name", length = 50, nullable = false)
-    @Getter
-    @Setter
+    @Column(length = 50, nullable = false)
     private String firstName;
 
-    @Column(name = "last_name", length = 50, nullable = false)
-    @Getter
-    @Setter
+    @Column(length = 50, nullable = false)
     private String lastName;
 
-    @Column(name = "email", length = 50, nullable = false, unique = true)
-    @Getter
-    @Setter
+    @Column(length = 50, nullable = false, unique = true)
+    @Email
     private String email;
 
-    @Column(name = "password", length = 100, nullable = false)
-    @Getter
-    @Setter
+    @Column(length = 100, nullable = false)
     private String password;
 
-    @ManyToMany(mappedBy = "students")
-    private List<VirtualClass> virtualClasses = new ArrayList<>();
+    @Column(nullable = false)
+    private boolean studentFlag;
 
-    public Student() {
-    }
+    @ManyToMany(mappedBy = "students")
+    private Set<VirtualClass> virtualClasses = new HashSet<>();
 
     //    public void setPassword(String password) {
     //        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

@@ -1,5 +1,10 @@
 package api.entities.CodeInfo;
 
+import api.entities.InfoProblem;
+import lombok.Getter;
+
+@Getter
 public class ExecutionRequest {
-    public String cppCode, inputData;
+    private String cppCode;
+    private long infoProblemId;
 }

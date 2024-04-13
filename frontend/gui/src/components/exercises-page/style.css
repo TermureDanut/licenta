@@ -26,9 +26,9 @@
 .buttons {
     width: 200px;
     height: 60px;
-    background-color: #000080;
+    background-color: lightgray;
     margin-top: 10px;
-    color: white;
+    color: black;
     border: 0;
     font-size: 18px;
     font-weight: 500;
@@ -39,10 +39,11 @@
     align-items: center;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border-radius: 5px;
 }
 
 .buttons:hover {
-    background-color: #0000ff;
+    background-color: grey;
 }
 
 .problemsArea {
@@ -54,7 +55,7 @@
 }
 
 .miniHeader {
-    margin-left: -20px;
+    margin-left: 5px;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -69,8 +70,7 @@
 }
 
 .problems {
-    overflow-y: auto;
+    width: 100%;
     max-height: 750px;
-    margin-left: -15px;
 }
 

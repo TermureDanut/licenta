@@ -1,6 +1,7 @@
 .welcome-page {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .content {
@@ -12,11 +13,14 @@
 .login-card {
     height: 300px;
     width: 400px;
-    background-color: #000080;
+    margin-left: 10px;
+    background-color: lightgray;
     margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 0.3px black;
 }
 
 .input-bars {
@@ -25,6 +29,8 @@
     margin-top: 10px;
     font-size: 15px;
     font-family: "Arial", sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .login-button {
@@ -33,11 +39,17 @@
     margin-top: 10px;
     font-size: 15px;
     font-family: "Arial", sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-button:hover {
+    background-color: grey;
 }
 
 .text_login_register {
     font-size: 20px;
     font-family: "Arial", sans-serif;
-    color: white;
+    color: grey;
     padding-top: 15px;
 }

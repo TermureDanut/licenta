@@ -13,13 +13,12 @@ public class VirtualClassService {
     @Autowired
     private VirtualClassRepository virtualClassRepository;
 
-    @SuppressWarnings("null")
-    public VirtualClass addVirtualClass (VirtualClass virtualClass){
+    public VirtualClass addVirtualClass(VirtualClass virtualClass) {
         virtualClassRepository.save(virtualClass);
         return virtualClass;
     }
 
-    public List<VirtualClass> getVirtualClassesByTeacher (Long id) {
+    public List<VirtualClass> getVirtualClassesByTeacher(Long id) {
         return virtualClassRepository.findByTeacherId(id);
     }
 }

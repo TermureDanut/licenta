@@ -1,7 +1,10 @@
 package api.services;
 
 import api.entities.InfoProblem;
+import api.entities.InfoProblemRequest;
+import api.entities.InfoProblemTest;
 import api.entities.Teacher;
+import api.repositories.InfoProblemTestRepository;
 import api.repositories.InfoProblemsRepository;
 import api.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +21,28 @@ public class InfoProblemService {
     private InfoProblemsRepository infoProblemsRepository;
     @Autowired
     private TeacherRepository teacherRepository;
+    @Autowired
+    private InfoProblemTestRepository infoProblemTestRepository;
 
-    public InfoProblem addProblem(long teacherId, InfoProblem infoProblem) {
+    public InfoProblem addProblem(long teacherId, InfoProblemRequest infoProblemRequest) {
         Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
         if (teacher != null) {
-            infoProblem.setTeacher(teacher);
-            teacher.addInfoProblem(infoProblem);
-            teacherRepository.save(teacher);
-            infoProblemsRepository.save(infoProblem);
-            return infoProblem;
+            InfoProblem newInfoProblem = new InfoProblem();
+            InfoProblem infoProblem = infoProblemRequest.getInfoProblem();
+            newInfoProblem.setName(infoProblem.getName());
+            newInfoProblem.setCategory(infoProblem.getCategory());
+            newInfoProblem.setDifOption(infoProblem.getDifOption());
+            newInfoProblem.setPbRequirement(infoProblem.getPbRequirement());
+            newInfoProblem.setNrOfExamples(infoProblem.getNrOfExamples());
+            newInfoProblem.setTeacher(teacher);
+            infoProblemsRepository.save(newInfoProblem);
+            List<InfoProblemTest> infoProblemTests = infoProblemRequest.getInfoProblemTests();
+            for (InfoProblemTest infoProblemTest : infoProblemTests) {
+                infoProblemTest.setInfoProblem(newInfoProblem);
+                infoProblemTestRepository.save(infoProblemTest);
+            }
+
+            return newInfoProblem;
         }
         return null;
     }

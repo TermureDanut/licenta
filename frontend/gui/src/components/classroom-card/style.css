@@ -1,20 +1,24 @@
 .classrooms > div {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .classroom-card {
-  width: 270px;
-  height: 270px;
-  background-color: #000080;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px;
-  box-sizing: border-box;
+    width: 270px;
+    height: 270px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 0.3px black;
+    border-radius: 5px;
 }
+

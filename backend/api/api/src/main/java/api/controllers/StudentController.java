@@ -3,6 +3,7 @@ package api.controllers;
 import api.entities.Student;
 import api.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,12 +13,14 @@ import java.util.List;
 public class StudentController {
     @Autowired
     private StudentService studentService;
+
     @PostMapping
-    public Student addStudent (@RequestBody Student student){
+    public ResponseEntity<String> addStudent(@RequestBody Student student) {
         return studentService.addStudent(student);
     }
+
     @GetMapping
-    public List<Student> getAll (){
+    public ResponseEntity<?> getAll() {
         return studentService.getAll();
     }
 }

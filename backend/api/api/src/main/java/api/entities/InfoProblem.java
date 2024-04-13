@@ -1,48 +1,47 @@
 package api.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "t_info_problem")
+@Table
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class InfoProblem {
     @Id
-    @GeneratedValue
-    @Getter
-    @Setter
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name", length = 50, nullable = false)
-    @Getter
-    @Setter
+    @Column(length = 50, nullable = false, unique = true)
     private String name;
-    @Column(name = "category", length = 50, nullable = false)
-    @Getter
-    @Setter
+
+    @Column(length = 50, nullable = false)
     private String category;
-    @Column(name = "dif_option", length = 50, nullable = false)
-    @Getter
-    @Setter
+
+    @Column(length = 50, nullable = false)
     private String difOption;
-    @Column(name = "input_data", length = 100, nullable = false)
-    @Getter
-    @Setter
-    private String inputData;
-    @Column(name = "output_data", length = 100, nullable = false)
-    @Getter
-    @Setter
-    private String outputData;
-    @Column(name = "problem_requirement", length = 1000, nullable = false)
-    @Getter
-    @Setter
+
+    @Column(length = 10000, nullable = false)
     private String pbRequirement;
-    @ManyToOne
-    @JoinColumn(name = "teacher_id")
-    @Setter
-    @Getter
+
+    @Column(nullable = false)
+    private Long nrOfExamples;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "teacher_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Teacher teacher;
 
-    public InfoProblem() {
-    }
 }

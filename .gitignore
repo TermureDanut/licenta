@@ -55,3 +55,4 @@ backend/api/target/
 /backend/api/api/.mvn/wrapper/maven-wrapper.properties
 /backend/api/api/mvnw
 /backend/api/api/mvnw.cmd
+/backend/api/api/api.iml

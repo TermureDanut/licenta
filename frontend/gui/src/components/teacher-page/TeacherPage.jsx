@@ -8,6 +8,7 @@ const TeacherPage = () => {
     const location = useLocation();
     const {teacherData} = location.state;
     const [classrooms, setClassrooms] = useState([]);
+    const [addedClassroom, setAddedClassroom] = useState(false);
 
     useEffect(() => {
         const getClasses = async () => {
@@ -19,14 +20,20 @@ const TeacherPage = () => {
             );
             const jsonResponse = await response.json();
             setClassrooms(jsonResponse);
+            setAddedClassroom(false);
         };
-        getClasses();
-    });
+        getClasses().then();
+    }, [teacherData.id, addedClassroom]);
+
+    const handleAddClassroom = () => {
+        setAddedClassroom(true);
+    };
 
     return (
         <div className="mainArea">
             <div>
-                <SideMenu teacherData={teacherData}/>
+                <SideMenu teacherData={teacherData} adddedClassroom={handleAddClassroom} inHomePage={true}
+                          inClassroomsPage={false}/>
             </div>
             <div className="classrooms">
                 <div>

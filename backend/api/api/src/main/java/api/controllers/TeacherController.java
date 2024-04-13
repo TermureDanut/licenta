@@ -5,6 +5,8 @@ import api.entities.VirtualClass;
 import api.services.TeacherService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,19 +19,26 @@ public class TeacherController {
     private TeacherService teacherService;
 
     @PostMapping
-    public Teacher addTeacher (@RequestBody Teacher teacher){
+    public ResponseEntity<String> addTeacher(@RequestBody Teacher teacher) {
         return teacherService.addTeacher(teacher);
     }
+
     @GetMapping
-    public List<Teacher> getAll (){
+    public ResponseEntity<?> getAll() {
         return teacherService.getAll();
     }
+
     @PostMapping("addClass/{id}")
-    public Teacher addClassroom (@PathVariable("id") Long id, @RequestBody VirtualClass virtualClass){
-        return teacherService.addClassroom(id, virtualClass);
+    public ResponseEntity<VirtualClass> addClassroom(@PathVariable("id") Long id, @RequestBody VirtualClass virtualClass) {
+        VirtualClass virtualClass1 = teacherService.addClassroom(id, virtualClass);
+        if (virtualClass1 == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(virtualClass1, HttpStatus.OK);
     }
+
     @GetMapping("getAllClasses/{id}")
-    public List<VirtualClass> getVirtualClassesByTeacher (@PathVariable("id") Long id){
+    public List<VirtualClass> getVirtualClassesByTeacher(@PathVariable("id") Long id) {
         return teacherService.getVirtualClassesByTeacher(id);
     }
 }

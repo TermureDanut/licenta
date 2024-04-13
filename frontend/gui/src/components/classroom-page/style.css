@@ -1,0 +1,55 @@
+.classroomArea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 60px;
+    padding-left: 20px;
+}
+
+.mainArea {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.classroomName {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.classroomNameStyle {
+    font-size: 20px;
+}
+
+.postCard {
+    width: 100%;
+    height: 120px;
+    font-size: 17px;
+    resize: none;
+}
+
+.postDiv {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.button {
+    font-size: 17px;
+    height: 40px;
+    width: 80px;
+}
+
+.postLists {
+
+}

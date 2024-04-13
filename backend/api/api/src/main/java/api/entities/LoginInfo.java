@@ -2,9 +2,8 @@ package api.entities;
 
 import lombok.Getter;
 
+@Getter
 public class LoginInfo {
-    @Getter
     private String email;
-    @Getter
     private String password;
 }
