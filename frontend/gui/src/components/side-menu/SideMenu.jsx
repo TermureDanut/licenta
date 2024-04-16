@@ -295,11 +295,6 @@ const SideMenu = ({
                             edge="start"
                             sx={{marginRight: 1}}
                         >
-                            {/*{firstLetter ? (*/}
-                            {/*    <AccountCircleIcon sx={{color: 'grey'}}>{firstLetter}</AccountCircleIcon>*/}
-                            {/*) : (*/}
-                            {/*    <AccountCircleIcon sx={{color: 'grey'}}/>*/}
-                            {/*)}*/}
                             <Avatar>{firstLetter}</Avatar>
                         </IconButton>
 
@@ -325,30 +320,6 @@ const SideMenu = ({
                                 Logout
                             </MenuItem>
                         </Menu>
-                        {/*<IconButton*/}
-                        {/*    color="inherit"*/}
-                        {/*    aria-label="open drawer"*/}
-                        {/*    onClick={() => {*/}
-                        {/*    }}*/}
-                        {/*    edge="start"*/}
-                        {/*    sx={{*/}
-                        {/*        marginRight: 5*/}
-                        {/*    }}*/}
-                        {/*>*/}
-                        {/*    <AccountCircleIcon sx={{color: 'grey'}}/>*/}
-                        {/*</IconButton>*/}
-                        {/*<IconButton*/}
-                        {/*    color="inherit"*/}
-                        {/*    aria-label="open drawer"*/}
-                        {/*    onClick={() => {*/}
-                        {/*    }}*/}
-                        {/*    edge="start"*/}
-                        {/*    sx={{*/}
-                        {/*        marginRight: 5*/}
-                        {/*    }}*/}
-                        {/*>*/}
-                        {/*    <LogoutIcon sx={{color: 'grey'}}/>*/}
-                        {/*</IconButton>*/}
                     </Box>
                 </Toolbar>
             </AppBar>

@@ -14,29 +14,16 @@ import org.hibernate.annotations.OnDeleteAction;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InfoProblem {
+public class TestMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column(length = 50, nullable = false, unique = true)
-    private String name;
-
-    @Column(length = 50, nullable = false)
-    private String category;
-
-    @Column(length = 50, nullable = false)
-    private String difOption;
-
-    @Column(length = 10000, nullable = false)
-    private String pbRequirement;
-
     @Column(nullable = false)
-    private Long nrOfExamples;
-
+    private String message;
+    @Column(nullable = false)
+    private boolean passed;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "teacher_id", nullable = false)
+    @JoinColumn(name = "problem_upload_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Teacher teacher;
-
+    private ProblemUpload problemUpload;
 }

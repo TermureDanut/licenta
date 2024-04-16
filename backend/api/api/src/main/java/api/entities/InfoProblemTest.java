@@ -25,6 +25,8 @@ public class InfoProblemTest {
 
     @Column(length = 500, nullable = false)
     private String outputData;
+    @Column(nullable = false)
+    private boolean checked;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "info_problem_id", nullable = false)

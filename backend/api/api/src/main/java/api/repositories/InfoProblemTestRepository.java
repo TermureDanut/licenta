@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface InfoProblemTestRepository extends JpaRepository<InfoProblemTest, Long> {
     List<InfoProblemTest> findByInfoProblemId(long id);
+
+    List<InfoProblemTest> findByCheckedAndInfoProblemId(boolean checked, long id);
 }

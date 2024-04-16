@@ -37,7 +37,7 @@ public class CodeExecutorService {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                output.append(line.trim()).append("\n");
+                output.append(line.trim());
             }
         }
 
@@ -45,7 +45,7 @@ public class CodeExecutorService {
         try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
             String line;
             while ((line = errorReader.readLine()) != null) {
-                errorOutput.append(line.trim()).append("\n");
+                errorOutput.append(line.trim());
             }
         }
 

@@ -12,8 +12,8 @@ public class InfoProblemTestService {
     @Autowired
     private InfoProblemTestRepository infoProblemTestRepository;
 
-    public List<InfoProblemTest> getExample(long id, int number) {
-        return infoProblemTestRepository.findByInfoProblemId(id).subList(0, number);
+    public List<InfoProblemTest> getExample(long id) {
+        return infoProblemTestRepository.findByCheckedAndInfoProblemId(true, id);
     }
 
     public List<InfoProblemTest> getAllTests(long id) {

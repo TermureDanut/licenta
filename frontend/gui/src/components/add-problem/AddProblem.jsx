@@ -16,12 +16,20 @@ const AddProblem = () => {
     const [name, setName] = useState("");
     const [category, setCategory] = useState(-1);
     const [difOption, setDifOption] = useState(-1);
-    const [inputData, setInputData] = useState("");
-    const [outputData, setOutputData] = useState("");
+    const [nrOfExamples, setNrOfExamples] = useState("");
     const [pbRequirement, setPbRequirement] = useState("");
     const [teacherId] = useState(teacherData.id);
+    const [inputOutputPairs, setInputOutputPairs] = useState([{inputData: "", outputData: "", checked: false}]);
+    const [inputOutputPairsReversed, setInputOutputPairsReversed] = useState([{
+        inputData: "",
+        outputData: "",
+        checked: false
+    }]);
 
     const [snackOpen, setSnackOpen] = React.useState(false);
+    const [pairCount, setPairCount] = useState(0);
+    const [inputData, setInputData] = useState("");
+    const [outputData, setOutputData] = useState("");
 
     const handleNameChange = (e) => {
         setName(e.target.value);
@@ -35,13 +43,11 @@ const AddProblem = () => {
         setDifOption(e.target.value);
     };
 
-    const handleInputDataChange = (e) => {
-        setInputData(e.target.value);
+    const handleNrOfExamplesChange = () => {
+        const checkedPairsCount = inputOutputPairsReversed.filter(pair => pair.checked).length;
+        setNrOfExamples(checkedPairsCount.toString());
     };
 
-    const handleOutputDataChange = (e) => {
-        setOutputData(e.target.value);
-    };
 
     const handlePbRequirementChange = (e) => {
         setPbRequirement(e.target.value);
@@ -54,18 +60,21 @@ const AddProblem = () => {
     }
 
     const handleSubmit = async () => {
+        handleNrOfExamplesChange();
         const response = await fetch("http://localhost:8080/api/infoproblem/new/" + teacherId, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                name: name,
-                category: category,
-                difOption: difOption,
-                inputData: inputData,
-                outputData: outputData,
-                pbRequirement: pbRequirement
+                infoProblem: {
+                    name: name,
+                    category: category,
+                    difOption: difOption,
+                    pbRequirement: pbRequirement,
+                    nrOfExamples: nrOfExamples
+                },
+                infoProblemTests: inputOutputPairs
             }),
         });
         if (response.ok) {
@@ -89,6 +98,35 @@ const AddProblem = () => {
     const handleSnackOpen = () => {
         setSnackOpen(true);
     }
+
+    const handleAddPair = () => {
+        setInputOutputPairs([...inputOutputPairs, {inputData: inputData, outputData: outputData}]);
+        setPairCount(pairCount + 1);
+        setInputOutputPairsReversed(inputOutputPairs.reverse());
+    };
+
+    const handleInputChange = (value) => {
+        const newPairs = [...inputOutputPairs];
+        const last = newPairs.length - 1;
+        newPairs[last].inputData = value;
+        setInputOutputPairs(newPairs);
+        setInputData(value);
+    };
+
+    const handleOutputChange = (value) => {
+        const newPairs = [...inputOutputPairs];
+        const last = newPairs.length - 1;
+        newPairs[last].outputData = value;
+        setInputOutputPairs(newPairs);
+        setOutputData(value);
+    };
+
+    const handleCheckboxChange = (index, isChecked) => {
+        const newPairs = [...inputOutputPairsReversed];
+        newPairs[index].checked = isChecked;
+        setInputOutputPairsReversed(newPairs);
+    };
+
 
     return (
         <>
@@ -135,15 +173,74 @@ const AddProblem = () => {
                                     </RadioGroup>
                                 </FormControl>
                             </div>
-                            <div>
-                                <p className="textStyle">Date de intrare</p>
-                                <textarea className="textStyle inputStyle diInputStyle" value={inputData}
-                                          onChange={handleInputDataChange}/>
+                            <p className="textStyle">Exemple de date de intrare/iesire</p>
+                            <div className="pairContainer">
+                                <div>
+                                    <p className="textStyle">Data de intrare</p>
+                                    <textarea
+                                        className="textStyle inputStyle diInputStyle"
+                                        value={inputData}
+                                        onChange={(e) => handleInputChange(e.target.value)}
+                                    />
+                                </div>
+                                <div style={{paddingLeft: "10px"}}>
+                                    <p className="textStyle">Data de iesire</p>
+                                    <textarea
+                                        className="textStyle inputStyle doInputStyle"
+                                        value={outputData}
+                                        onChange={(e) => handleOutputChange(e.target.value)}
+                                    />
+                                </div>
+                                <div style={{position: "relative", paddingLeft: "10px", minHeight: "100px"}}>
+                                    <button className="buttonStyle addButton"
+                                            onClick={handleAddPair}
+                                            style={{position: "absolute", bottom: "0", marginBottom: "7px"}}>
+                                        Adauga exemplu
+                                    </button>
+                                </div>
                             </div>
-                            <div>
-                                <p className="textStyle">Date de iesire</p>
-                                <textarea className="textStyle inputStyle doInputStyle" value={outputData}
-                                          onChange={handleOutputDataChange}/>
+
+                            <div className="pairTableContainer">
+                                {inputOutputPairsReversed.some(pair => pair.inputData || pair.outputData) && inputOutputPairsReversed.map((pair, index) => (
+                                    <div key={index} style={{display: "flex", flexDirection: "column"}}>
+                                        <div style={{marginBottom: "-20px"}}>
+                                            <p className="textStyle">Example {inputOutputPairsReversed.length - index}</p>
+                                        </div>
+                                        <div style={{
+                                            display: "flex",
+                                            flexDirection: "row"
+                                        }}>
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    justifyContent: "center",
+                                                    alignItems: "center",
+                                                }}>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={pair.checked}
+                                                    onChange={(e) => handleCheckboxChange(index, e.target.checked)}
+                                                    style={{
+                                                        margin: "0",
+                                                        width: "20px",
+                                                        height: "20px"
+                                                    }}
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <p style={{
+                                                    paddingLeft: "10px"
+                                                }} className="textStyle">Date de intrare: {pair.inputData}</p>
+                                            </div>
+                                            <div>
+                                                <p style={{
+                                                    paddingLeft: "10px"
+                                                }} className="textStyle">Date de iesire: {pair.outputData}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                         <div className="pDivStyle">
@@ -152,15 +249,15 @@ const AddProblem = () => {
                                 <textarea className="textStyle inputStyle cerintaInputStyle" value={pbRequirement}
                                           onChange={handlePbRequirementChange}/>
                             </div>
+                            <div className="buttonsArea">
+                                <button className="buttonStyle cancelButton" onClick={handleCancel}>
+                                    Anuleaza
+                                </button>
+                                <button className="buttonStyle addButton" onClick={handleSubmit}>
+                                    Adauga
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="buttonsArea">
-                        <button className="buttonStyle cancelButton" onClick={handleCancel}>
-                            Anuleaza
-                        </button>
-                        <button className="buttonStyle addButton" onClick={handleSubmit}>
-                            Adauga
-                        </button>
                     </div>
                 </div>
             </div>

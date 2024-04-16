@@ -9,10 +9,13 @@ import api.repositories.InfoProblemsRepository;
 import api.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -60,6 +63,32 @@ public class InfoProblemService {
     public Page<InfoProblem> filterDifficulty(String difficulty, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return infoProblemsRepository.findByDifOption(difficulty, pageable);
+    }
+
+    public Page<InfoProblem> search(String search, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<InfoProblem> infoProblems = infoProblemsRepository.findAll();
+        List<InfoProblem> filtered = new ArrayList<>();
+        for (InfoProblem infoProblem : infoProblems) {
+            if (infoProblem.getName().contains(search)) {
+                filtered.add(infoProblem);
+            } else {
+                if (infoProblem.getPbRequirement().contains(search)) {
+                    filtered.add(infoProblem);
+                } else {
+                    if (infoProblem.getId().toString().equals(search)) {
+                        filtered.add(infoProblem);
+                    }
+                }
+            }
+        }
+        Collections.reverse(filtered);
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), filtered.size());
+        Page<InfoProblem> pageResult = new PageImpl<>(filtered.subList(start, end), pageable, filtered.size());
+
+        return pageResult;
     }
 
     public InfoProblem getById(long id) {

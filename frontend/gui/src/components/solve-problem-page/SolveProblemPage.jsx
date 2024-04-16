@@ -15,6 +15,8 @@ const SolveProblemPage = () => {
     const [code, setCode] = useState("");
     const [showMessageArea, setShowMessageArea] = useState(false);
     const [responseValue, setResponseValue] = useState("");
+    const [examples, setExamples] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const setNames = () => {
@@ -48,9 +50,9 @@ const SolveProblemPage = () => {
         if (e.key === 'Tab') {
             e.preventDefault();
             const {selectionStart, selectionEnd, value} = e.target;
-            e.target.value = value.substring(0, selectionStart) + '\t' + value.substring(selectionEnd);
+            const newValue = value.substring(0, selectionStart) + '\t' + value.substring(selectionEnd);
+            setCode(newValue);
             e.target.selectionStart = e.target.selectionEnd = selectionStart + 1;
-            e.target.dispatchEvent(new Event('input'));
         }
     };
 
@@ -59,27 +61,51 @@ const SolveProblemPage = () => {
     };
 
     const handleExecuteClick = async () => {
-        const response = await fetch('http://localhost:8080/api/execute/runcpp', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                cppCode: code,
-                inputData: infoProblem.inputData
-            })
-        });
-        if (response.ok) {
-            const responseBody = await response.text();
-            setResponseValue(responseBody);
+        setLoading(true);
+        setShowMessageArea(false);
+        try {
+            const response = await fetch('http://localhost:8080/api/execute/runcpp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cppCode: code,
+                    infoProblemId: infoProblem.id
+                })
+            });
+            if (response.ok) {
+                const responseBody = await response.text();
+                setResponseValue(responseBody);
+                setShowMessageArea(true);
+            } else {
+                const errorResponse = await response.text();
+                console.error(errorResponse);
+                setResponseValue(errorResponse);
+                setShowMessageArea(true);
+            }
+        } catch (error) {
+            console.error("Error executing code:", error);
+            setResponseValue("Error executing code. Please try again.");
             setShowMessageArea(true);
-        } else {
-            const errorResponse = await response.text();
-            console.error(errorResponse);
-            setResponseValue(errorResponse);
-            setShowMessageArea(true);
+        } finally {
+            setLoading(false);
         }
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/api/infoproblem/getexamples/" + infoProblem.id);
+                const data = await response.json();
+                setExamples(data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    },);
 
     return (
         <div className="mainArea">
@@ -98,23 +124,33 @@ const SolveProblemPage = () => {
                         <p className="idAndNameDiv" style={{paddingLeft: '10px'}}>{infoProblem.name}</p>
                     </div>
                     <div>
-                        <p style={{fontSize: '25px'}}>Cerinta</p>
+                        <p style={{fontSize: '25px', textDecoration: 'underline'}}>Cerinta</p>
                         <p className="pbRequirement">{infoProblem.pbRequirement}</p>
                     </div>
                     <div>
-                        <p style={{fontSize: '25px'}}>Exemplu</p>
-                        <p style={{fontSize: '20px'}}>Date de intrare</p>
-                        <p style={{fontSize: '20px'}}>{infoProblem.inputData}</p>
+                        {examples.map((example, index) => (
+                            <div key={index}>
+                                {examples.length > 1 ?
+                                    <p style={{fontSize: '25px', textDecoration: 'underline'}}>Exemplu {index + 1}</p>
+                                    :
+                                    <p style={{fontSize: '25px', textDecoration: 'underline'}}>Exemplu</p>
+                                }
 
-                        <p style={{fontSize: '20px'}}>Date de iesire</p>
-                        <p style={{fontSize: '20px'}}>{infoProblem.outputData}</p>
+                                <p style={{fontSize: '20px'}}>Date de intrare</p>
+                                <p style={{fontSize: '20px'}}>{example.inputData}</p>
+
+                                <p style={{fontSize: '20px'}}>Date de iesire</p>
+                                <p style={{fontSize: '20px'}}>{example.outputData}</p>
+                            </div>
+                        ))}
                     </div>
                     <div className="codeArea">
                         <textarea className="codeArea" onKeyDown={handleKeyDown} value={code}
                                   onChange={handleCodeChange}></textarea>
                     </div>
                     <div className="buttonsDiv">
-                        <button className="buttonStyle" onClick={handleExecuteClick}>Executa</button>
+                        <button className="buttonStyle"
+                                onClick={handleExecuteClick}>{loading ? "Loading..." : "Executa"}</button>
                         <button className="buttonStyle">Posteaza</button>
                     </div>
                     {showMessageArea && (

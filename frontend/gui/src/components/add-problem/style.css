@@ -106,13 +106,13 @@
 
 .diInputStyle {
     width: 200px;
-    height: 100px;
+    height: 140px;
     resize: none
 }
 
 .doInputStyle {
     width: 200px;
-    height: 100px;
+    height: 140px;
     resize: none
 }
 
@@ -120,4 +120,9 @@
     width: 800px;
     height: 600px;
     resize: none
+}
+
+.pairContainer {
+    display: flex;
+    flex-direction: row;
 }
