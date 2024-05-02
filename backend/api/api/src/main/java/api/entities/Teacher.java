@@ -1,6 +1,5 @@
 package api.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -43,7 +42,7 @@ public class Teacher {
 
     @Column(nullable = false)
     private boolean teacherFlag;
-    
+
     //    public void setPassword(String password) {
     //        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     //        this.password = passwordEncoder.encode(password);

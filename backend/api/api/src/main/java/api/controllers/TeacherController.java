@@ -4,6 +4,7 @@ import api.entities.Teacher;
 import api.entities.VirtualClass;
 import api.services.TeacherService;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class TeacherController {
     }
 
     @PostMapping("addClass/{id}")
-    public ResponseEntity<VirtualClass> addClassroom(@PathVariable("id") Long id, @RequestBody VirtualClass virtualClass) {
+    public ResponseEntity<VirtualClass> addClassroom(@PathVariable("id") Long id, @Valid @RequestBody VirtualClass virtualClass) {
         VirtualClass virtualClass1 = teacherService.addClassroom(id, virtualClass);
         if (virtualClass1 == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

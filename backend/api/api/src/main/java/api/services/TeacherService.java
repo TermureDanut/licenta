@@ -1,6 +1,5 @@
 package api.services;
 
-import api.entities.Student;
 import api.entities.Teacher;
 import api.entities.VirtualClass;
 import api.repositories.TeacherRepository;
