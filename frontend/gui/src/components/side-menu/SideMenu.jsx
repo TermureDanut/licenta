@@ -30,6 +30,7 @@ import {Avatar, Menu, MenuItem} from "@mui/material";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import config from "../../config";
 
 const drawerWidth = 240;
 
@@ -98,7 +99,6 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 );
 
 const SideMenu = ({
-                      teacherData,
                       adddedClassroom,
                       inClassroomsPage,
                       inHomePage,
@@ -112,6 +112,11 @@ const SideMenu = ({
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorElAccount, setAnchorElAccount] = useState(null);
 
+    // user data from local storage
+    const storedData = JSON.parse(localStorage.getItem("userData"));
+    const user = storedData.user;
+    const token = storedData.accessToken;
+
     const handleAddButtonClick = () => {
         setDialogOpen(true);
     };
@@ -124,21 +129,21 @@ const SideMenu = ({
         setTextInput(e.target.value);
     };
 
+
     const handleAdd = async () => {
-        console.log(teacherData);
         await fetch(
-            "http://localhost:8080/api/teachers/addClass/" + teacherData.id,
+            `${config.API_BASE_URL}teachers/addClass/${user.id}`,
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     name: textInput,
                 }),
             }
-        );
-        //const jsonResponse = await response.json();
+        )
         setTextInput("");
         handleCloseDialog();
         adddedClassroom(true);
@@ -153,15 +158,11 @@ const SideMenu = ({
     };
 
     const handleExercitiiClick = () => {
-        navigate("/exercises", {
-            state: {teacherData: teacherData},
-        });
+        navigate("/exercises");
     };
 
     const navigateHome = () => {
-        navigate("/teacher", {
-            state: {teacherData: teacherData},
-        });
+        navigate("/mainpage");
     }
 
     const handleDropDownClick = (event) => {
@@ -179,8 +180,9 @@ const SideMenu = ({
     const handleCloseAccount = () => {
         setAnchorElAccount(null);
     };
-    const firstLetter = teacherData.firstName.charAt(0).toUpperCase();
+    const firstLetter = user.firstName.charAt(0).toUpperCase();
     const handleLogout = () => {
+        localStorage.removeItem("userData");
         navigate("/");
     }
 
@@ -352,7 +354,7 @@ const SideMenu = ({
                             <ListItemText primary={"Acasa"} sx={{opacity: open ? 1 : 0}}/>
                         </ListItemButton>
                     </ListItem>
-                    <ClassroomsList drawerOpen={open} teacherData={teacherData}/>
+                    <ClassroomsList drawerOpen={open} teacherData={user}/>
                 </List>
             </Drawer>
             <Dialog

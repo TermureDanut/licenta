@@ -1,34 +1,32 @@
 package api.security;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import api.entities.payload.CustomUserDetails;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
 
-    @Value("${app.jwt-secret}")
+    @Value("${app-jwt-secret}")
     private String jwtSecret;
 
     @Value("${app-jwt-expiration-milliseconds}")
     private long jwtExpirationDate;
 
     public String generateToken(Authentication authentication) {
-        String username = authentication.getName();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
 
-        return Jwts.builder().subject(username).issuedAt(new Date()).expiration(expireDate).signWith(key()).compact();
+        return Jwts.builder().setSubject(username).setIssuedAt(new Date()).setExpiration(expireDate).signWith(key()).compact();
     }
 
     private Key key() {
@@ -36,22 +34,17 @@ public class JwtTokenProvider {
     }
 
     public String getUsername(String token) {
-        return Jwts.parser().verifyWith((SecretKey) key()).build().parseSignedClaims(token).getPayload().getSubject();
+        Claims claims = Jwts.parser().setSigningKey(key()).build().parseClaimsJws(token).getBody();
+        return claims.getSubject();
     }
 
     public boolean validateToken(String token) throws Exception {
         try {
-            Jwts.parser().verifyWith((SecretKey) key()).build().parse(token);
-        } catch (MalformedJwtException malformedJwtException) {
-            throw new Exception("Invalid Token");
-        } catch (ExpiredJwtException expiredJwtException) {
-            throw new Exception("Expired Token");
-        } catch (UnsupportedJwtException unsupportedJwtException) {
-            throw new Exception("Unsupported Token");
-        } catch (IllegalArgumentException illegalArgumentException) {
-            throw new Exception("Jwt claims string is empty");
+            Jwts.parser().setSigningKey(key()).build().parseClaimsJws(token);
+            return true;
+        } catch (Exception ex) {
+            return false;
         }
-
-        return true;
     }
+
 }

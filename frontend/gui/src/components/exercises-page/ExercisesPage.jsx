@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import SideMenu from "../side-menu/SideMenu";
 import "./style.css";
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
@@ -7,10 +7,14 @@ import IconButton from "@mui/material/IconButton";
 import Pagination from '@mui/material/Pagination';
 import ProblemCard from "../problem-card/ProblemCard";
 import CircularProgress from '@mui/material/CircularProgress';
+import config from "../../config";
 
 const ExercisesPage = () => {
-    const location = useLocation();
-    const {teacherData} = location.state;
+    // user data from storage
+    const storedData = JSON.parse(localStorage.getItem("userData"));
+    const user = storedData.user;
+    const token = storedData.accessToken;
+
     const navigate = useNavigate();
     const [sectionName, setSectionName] = useState("Toate");
     const [pageCount, setPageCount] = useState(1);
@@ -27,7 +31,7 @@ const ExercisesPage = () => {
             const simulatedDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
             await simulatedDelay(1000);
             const size = 5;
-            const baseUrl = 'http://localhost:8080/api/infoproblem';
+            const baseUrl = `${config.API_BASE_URL}infoproblem`;
             let url = '';
 
             if (dif) {
@@ -37,9 +41,13 @@ const ExercisesPage = () => {
             } else {
                 url = `${baseUrl}/all?page=${currentPage - 1}&size=${size}`;
             }
-
             try {
-                const response = await fetch(url);
+                const response = await fetch(url, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                });
                 if (response.ok) {
                     const data = await response.json();
                     setProblemList(data.content);
@@ -74,7 +82,7 @@ const ExercisesPage = () => {
     };
 
     const handleNewProblemClick = () => {
-        navigate("/teacher/new/problem", {state: {teacherData}});
+        navigate("/teacher/new/problem");
     };
 
     const handlePageChange = (event, value) => {
@@ -83,7 +91,7 @@ const ExercisesPage = () => {
 
     return (
         <div className="mainArea">
-            <SideMenu teacherData={teacherData} inExercisesPage={true} category={category}/>
+            <SideMenu teacherData={user} inExercisesPage={true} category={category}/>
             <div className="exercisesArea">
                 <div className="sideMenu">
                     <button className="buttons" onClick={() => handleCategoryChange("", "Toate")}>Toate</button>
@@ -129,7 +137,7 @@ const ExercisesPage = () => {
                     ) : (
                         <div className="problems">
                             {problemList.map((problem, index) => (
-                                <ProblemCard key={index} infoProblem={problem} teacherData={teacherData}/>
+                                <ProblemCard key={index} infoProblem={problem} teacherData={user}/>
                             ))}
                         </div>
                     )}

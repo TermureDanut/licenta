@@ -36,7 +36,6 @@ public class TeacherService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Teacher email");
         }
         try {
-            teacher.setTeacherFlag(true);
             teacherRepository.save(teacher);
             return ResponseEntity.status(HttpStatus.CREATED).body("Teacher created successfully");
         } catch (DataIntegrityViolationException e) {

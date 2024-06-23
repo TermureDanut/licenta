@@ -1,17 +1,16 @@
 package api.controllers;
 
-import api.entities.Student;
-import api.entities.Teacher;
-import api.payload.JwtAuthResponse;
-import api.payload.LoginDto;
+import api.entities.payload.CustomUserDetails;
+import api.entities.payload.JwtAuthResponse;
+import api.entities.payload.LoginDto;
+import api.exceptions.InvalidCredentialsException;
 import api.security.CustomUserDetailsService;
-import api.services.AuthService;
+import api.services.auth.AuthService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -25,20 +24,28 @@ public class AuthController {
         this.customUserDetailsService = customUserDetailsService;
     }
 
-    @PostMapping(value = {"/login", "/signing"})
-    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto) {
-        String token = authService.login(loginDto);
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(loginDto.getEmail());
-        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
-        jwtAuthResponse.setAccessToken(token);
-        if (userDetails instanceof Teacher) {
-            jwtAuthResponse.isTeacher();
-            jwtAuthResponse.setUser(userDetails);
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
+        try {
+            String token = authService.login(loginDto);
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(loginDto.getEmail());
+
+            JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+            jwtAuthResponse.setAccessToken(token);
+
+            if (userDetails instanceof CustomUserDetails) {
+                CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
+                jwtAuthResponse.setTeacher(customUserDetails.isTeacher());
+                jwtAuthResponse.setStudent(customUserDetails.isStudent());
+                jwtAuthResponse.setUser(customUserDetails.getUser());
+            }
+
+            return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
+        } catch (InvalidCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found");
         }
-        if (userDetails instanceof Student) {
-            jwtAuthResponse.isStudent();
-            jwtAuthResponse.setUser(userDetails);
-        }
-        return ResponseEntity.ok(jwtAuthResponse);
     }
+
 }

@@ -1,4 +1,4 @@
-package api.payload;
+package api.entities.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

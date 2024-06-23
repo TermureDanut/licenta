@@ -1,9 +1,9 @@
 import AppRoutes from "./Routes";
 
-function App() {
+const App = () => {
     return (
         <div className="App">
-            <AppRoutes />
+            <AppRoutes/>
         </div>
     );
 }

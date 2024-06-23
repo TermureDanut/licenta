@@ -1,8 +1,8 @@
 package api.controllers;
 
-import api.entities.CodeInfo.ExecutionRequest;
+import api.entities.codeInfo.ExecutionRequest;
 import api.compiler.CodeExecutorService;
-import api.entities.CodeInfo.PostRequest;
+import api.entities.codeInfo.PostRequest;
 import api.entities.InfoProblem;
 import api.entities.InfoProblemTest;
 import api.entities.ProblemUpload;
@@ -14,15 +14,16 @@ import api.services.TestMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/execute/")
+@PreAuthorize("isAuthenticated()")
 public class CodeExecutorController {
     @Autowired
     private InfoProblemTestService infoProblemTestService;

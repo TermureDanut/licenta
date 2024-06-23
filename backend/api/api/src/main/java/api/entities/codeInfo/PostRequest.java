@@ -1,4 +1,4 @@
-package api.entities.CodeInfo;
+package api.entities.codeInfo;
 
 import lombok.Getter;
 

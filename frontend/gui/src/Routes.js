@@ -1,22 +1,23 @@
 import React from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import WelcomePage from "./components/main-page/WelcomePage";
-import TeacherPage from "./components/teacher-page/TeacherPage";
+import WelcomePage from "./components/welcome-page/WelcomePage";
+import MainPage from "./components/main-page/MainPage";
 import ExercisesPage from "./components/exercises-page/ExercisesPage";
 import AddProblem from "./components/add-problem/AddProblem";
 import SolveProblemPage from "./components/solve-problem-page/SolveProblemPage";
 import ClassroomPage from "./components/classroom-page/ClassroomPage";
+import ProtectedRoute from "./components/route-protection/ProtectedRoute";
 
-function AppRoutes() {
+const AppRoutes = () => {
     return (
         <Router>
             <Routes>
                 <Route exact path="/" element={<WelcomePage/>}/>
-                <Route path="/teacher" element={<TeacherPage/>}/>
-                <Route path="/exercises" element={<ExercisesPage/>}/>
-                <Route path="/teacher/new/problem" element={<AddProblem/>}/>
-                <Route path='/solve/problem' element={<SolveProblemPage/>}/>
-                <Route path='/teacher/classroom' element={<ClassroomPage/>}/>
+                <Route path="/mainpage" element={<ProtectedRoute><MainPage/></ProtectedRoute>}/>
+                <Route path="/exercises" element={<ProtectedRoute><ExercisesPage/></ProtectedRoute>}/>
+                <Route path="/teacher/new/problem" element={<ProtectedRoute><AddProblem/></ProtectedRoute>}/>
+                <Route path="/solve/problem" element={<ProtectedRoute><SolveProblemPage/></ProtectedRoute>}/>
+                <Route path="/teacher/classroom" element={<ProtectedRoute><ClassroomPage/></ProtectedRoute>}/>
             </Routes>
         </Router>
     );

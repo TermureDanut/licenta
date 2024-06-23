@@ -1,24 +1,28 @@
 import "./style.css";
 import SideMenu from "../side-menu/SideMenu";
 import * as React from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import {useState} from "react";
 import {Alert, Snackbar} from "@mui/material";
+import config from "../../config";
 
 const AddProblem = () => {
-    const location = useLocation();
-    const {teacherData} = location.state;
+    // user data from storage
+    const storedData = JSON.parse(localStorage.getItem("userData"));
+    const user = storedData.user;
+    const token = storedData.accessToken;
+
     const navigate = useNavigate();
     const [name, setName] = useState("");
     const [category, setCategory] = useState(-1);
     const [difOption, setDifOption] = useState(-1);
     const [nrOfExamples, setNrOfExamples] = useState("");
     const [pbRequirement, setPbRequirement] = useState("");
-    const [teacherId] = useState(teacherData.id);
+    const [teacherId] = useState(user.id);
     const [inputOutputPairs, setInputOutputPairs] = useState([{inputData: "", outputData: "", checked: false}]);
     const [inputOutputPairsReversed, setInputOutputPairsReversed] = useState([{
         inputData: "",
@@ -54,17 +58,16 @@ const AddProblem = () => {
     };
 
     const handleCancel = () => {
-        navigate("/exercises", {
-            state: {teacherData: teacherData},
-        });
+        navigate("/exercises");
     }
 
     const handleSubmit = async () => {
         handleNrOfExamplesChange();
-        const response = await fetch("http://localhost:8080/api/infoproblem/new/" + teacherId, {
+        const response = await fetch(`${config.API_BASE_URL}infoproblem/new/${teacherId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({
                 infoProblem: {
@@ -90,9 +93,7 @@ const AddProblem = () => {
             return;
         }
         setSnackOpen(false);
-        navigate("/exercises", {
-            state: {teacherData: teacherData},
-        });
+        navigate("/exercises");
     };
 
     const handleSnackOpen = () => {
@@ -132,7 +133,7 @@ const AddProblem = () => {
         <>
             <div className="mainArea">
                 <div>
-                    <SideMenu teacherData={teacherData}/>
+                    <SideMenu teacherData={user}/>
                 </div>
                 <div className="creationArea">
                     <div className="titleLabel">

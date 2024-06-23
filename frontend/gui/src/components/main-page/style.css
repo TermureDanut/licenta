@@ -1,55 +1,32 @@
-.welcome-page {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.content {
+.div-add-new {
+    width: 300px;
+    height: 300px;
+    background-color: #000080;
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-top: 10px;
 }
 
-.login-card {
-    height: 300px;
-    width: 400px;
-    margin-left: 10px;
-    background-color: lightgray;
-    margin-top: 10px;
+.mainArea {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-sizing: border-box;
-    box-shadow: 0 0 0 0.3px black;
-}
-
-.input-bars {
-    height: 40px;
-    width: 200px;
+    flex-direction: row;
+    align-items: flex-start;
     margin-top: 10px;
-    font-size: 15px;
-    font-family: "Arial", sans-serif;
-    border: 1px solid #ccc;
-    border-radius: 5px;
 }
 
-.login-button {
-    height: 40px;
-    width: 80px;
-    margin-top: 10px;
-    font-size: 15px;
-    font-family: "Arial", sans-serif;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.classrooms {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    padding-top: 60px;
+    padding-left: 20px;
 }
 
-.login-button:hover {
-    background-color: grey;
+.classrooms > div {
+    display: flex;
+    flex-direction: row;
 }
 
-.text_login_register {
-    font-size: 20px;
-    font-family: "Arial", sans-serif;
-    color: grey;
-    padding-top: 15px;
-}

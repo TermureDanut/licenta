@@ -4,8 +4,14 @@ import SideMenu from "../side-menu/SideMenu";
 import "./style.css";
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import config from "../../config";
 
 const SolveProblemPage = () => {
+    // user data from storage
+    const storedData = JSON.parse(localStorage.getItem("userData"));
+    const user = storedData.user;
+    const token = storedData.accessToken;
+
     const location = useLocation();
     const {state} = location;
     const {teacherData, infoProblem} = state;
@@ -64,10 +70,11 @@ const SolveProblemPage = () => {
         setLoading(true);
         setShowMessageArea(false);
         try {
-            const response = await fetch('http://localhost:8080/api/execute/runcpp', {
+            const response = await fetch(`${config.API_BASE_URL}execute/runcpp`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     cppCode: code,
@@ -96,7 +103,13 @@ const SolveProblemPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/infoproblem/getexamples/" + infoProblem.id);
+                const response = await fetch(`${config.API_BASE_URL}infoproblem/getexamples/${infoProblem.id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
                 const data = await response.json();
                 setExamples(data);
             } catch (error) {
@@ -105,7 +118,7 @@ const SolveProblemPage = () => {
         };
 
         fetchData();
-    },);
+    }, []);
 
     return (
         <div className="mainArea">

@@ -3,18 +3,16 @@ package api.security;
 
 import api.entities.Student;
 import api.entities.Teacher;
+import api.entities.payload.CustomUserDetails;
 import api.repositories.StudentRepository;
 import api.repositories.TeacherRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,12 +32,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (teacher == null && student == null) {
             throw new UsernameNotFoundException(email);
         }
-        if (teacher != null && student == null) {
-            return new User(teacher.getEmail(), teacher.getPassword(), Collections.emptyList());
+        if (teacher != null) {
+            return new CustomUserDetails(teacher);
         }
-        if (teacher == null && student != null) {
-            return new User(student.getEmail(), student.getPassword(), Collections.emptyList());
+        if (student != null) {
+            return new CustomUserDetails(student);
         }
         return null;
     }
+
 }

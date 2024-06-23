@@ -31,7 +31,6 @@ public class StudentService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Student email");
         }
         try {
-            student.setStudentFlag(true);
             studentRepository.save(student);
             return ResponseEntity.status(HttpStatus.CREATED).body("Student created successfully");
         } catch (DataIntegrityViolationException e) {

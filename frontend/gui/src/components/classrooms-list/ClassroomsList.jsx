@@ -7,15 +7,26 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import SchoolIcon from '@mui/icons-material/School';
 import LabelImportantIcon from '@mui/icons-material/LabelImportant';
+import config from "../../config";
 
-const ClassroomsList = ({drawerOpen, teacherData}) => {
+const ClassroomsList = ({drawerOpen}) => {
+    // user data from storage
+    const storedData = JSON.parse(localStorage.getItem("userData"));
+    const user = storedData.user;
+    const token = storedData.accessToken;
+
     const [open, setOpen] = useState(true);
     const [classrooms, setClassrooms] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/teachers/getAllClasses/" + teacherData.id);
+                const response = await fetch(`${config.API_BASE_URL}teachers/getAllClasses/${user.id}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                });
                 const data = await response.json();
                 setClassrooms(data);
             } catch (error) {

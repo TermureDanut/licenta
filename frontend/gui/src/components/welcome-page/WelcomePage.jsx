@@ -1,16 +1,24 @@
-import Header from "../header/Header";
-import "./style.css";
-import {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
+import Header from "../header/Header";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import IconButton from "@mui/material/IconButton";
+import config from "../../config";
+import "./style.css";
 
 const WelcomePage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const storedData = JSON.parse(localStorage.getItem("userData"));
+        if (storedData && storedData.teacher === true) {
+            navigate("/mainpage", {replace: true});
+        }
+    }, [navigate]);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -25,7 +33,7 @@ const WelcomePage = () => {
     };
 
     const handleLogin = async () => {
-        const response = await fetch("http://localhost:8080/api/login/", {
+        const response = await fetch(`${config.API_BASE_URL}auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -37,14 +45,13 @@ const WelcomePage = () => {
         });
         if (response.ok) {
             const jsonResponse = await response.json();
-            if (jsonResponse.hasOwnProperty("studentFlag")) {
-            } else {
-                navigate("/teacher", {
-                    state: {teacherData: jsonResponse},
-                });
+            localStorage.setItem("userData", JSON.stringify(jsonResponse));
+            const storedData = JSON.parse(localStorage.getItem("userData"));
+            if (storedData.teacher === true) {
+                navigate("/mainpage", {replace: true});
             }
         } else {
-            console.log("not ok");
+            console.log("to implement incorrect credentials");
         }
     };
 
