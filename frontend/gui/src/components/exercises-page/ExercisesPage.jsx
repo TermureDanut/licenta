@@ -1,7 +1,7 @@
+import "../../style.css";
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import SideMenu from "../side-menu/SideMenu";
-import "./style.css";
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import IconButton from "@mui/material/IconButton";
 import Pagination from '@mui/material/Pagination';

@@ -1,4 +1,4 @@
-import "./style.css";
+import "../../style.css";
 import SideMenu from "../side-menu/SideMenu";
 import * as React from "react";
 import {useNavigate} from "react-router-dom";

@@ -1,11 +1,17 @@
+import "../../style.css";
 import React, {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import Header from "../header/Header";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import IconButton from "@mui/material/IconButton";
+import TextField from '@mui/material/TextField';
 import config from "../../config";
-import "./style.css";
+import {ReactComponent as LogoWithText} from "../../images/Logo with text.svg";
+import {Input, InputAdornment, InputLabel, OutlinedInput} from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
+
 
 const WelcomePage = () => {
     const [email, setEmail] = useState("");
@@ -57,37 +63,67 @@ const WelcomePage = () => {
 
     return (
         <div className="welcome-page">
-            <Header/>
+            {/*<Header/>*/}
             <div className="content">
                 <div className="login-card">
+                    <LogoWithText width="400px" height="300px"/>
                     <div className="text_login_register">Login</div>
-                    <div>
-                        <input
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: "column",
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <TextField
+                            id="standard-basic"
+                            label="Email"
+                            variant="standard"
                             type="text"
-                            placeholder="Enter email"
                             className="input-bars"
                             onChange={handleEmailChange}
+                            style={{marginBottom: '16px'}}
                         />
-                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                            <input
+
+                        <FormControl variant="standard" className="input-bars" style={{marginBottom: '16px'}}>
+                            <InputLabel htmlFor="standard-adornment-password">Parola</InputLabel>
+                            <Input
+                                id="standard-adornment-password"
                                 type={showPassword ? 'text' : 'password'}
-                                placeholder="Enter password"
-                                className="input-bars"
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={togglePasswordVisibility}
+                                        >
+                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
                                 onChange={handlePasswordChange}
                             />
-                            <IconButton onClick={togglePasswordVisibility}
-                                        style={{
-                                            marginTop: '10px',
-                                            color: 'black',
-                                            backgroundColor: 'white',
-                                            width: '40px',
-                                            height: '40px',
-                                            marginLeft: '10px'
-                                        }}
-                            >
-                                {showPassword ? <VisibilityIcon/> : <VisibilityOffIcon/>}
-                            </IconButton>
-                        </div>
+                        </FormControl>
+                        {/*<div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>*/}
+                        {/*    <TextField*/}
+                        {/*        id="standard-basic"*/}
+                        {/*        label="Enter password"*/}
+                        {/*        variant="standard"*/}
+                        {/*        type={showPassword ? 'text' : 'password'}*/}
+                        {/*        className="input-bars"*/}
+                        {/*        onChange={handlePasswordChange}*/}
+                        {/*    />*/}
+                        {/*    <IconButton onClick={togglePasswordVisibility}*/}
+                        {/*                style={{*/}
+                        {/*                    marginTop: '10px',*/}
+                        {/*                    color: 'black',*/}
+                        {/*                    backgroundColor: 'white',*/}
+                        {/*                    width: '40px',*/}
+                        {/*                    height: '40px',*/}
+                        {/*                    marginLeft: '10px'*/}
+                        {/*                }}*/}
+                        {/*    >*/}
+                        {/*        {showPassword ? <VisibilityIcon/> : <VisibilityOffIcon/>}*/}
+                        {/*    </IconButton>*/}
+                        {/*</div>*/}
                     </div>
                     <button className="login-button" onClick={handleLogin}>
                         Login

@@ -1,4 +1,4 @@
-import "./style.css";
+import "../../style.css";
 import {useNavigate} from "react-router-dom";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";

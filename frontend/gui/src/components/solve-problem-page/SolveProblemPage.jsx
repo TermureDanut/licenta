@@ -1,7 +1,7 @@
+import "../../style.css";
 import React, {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 import SideMenu from "../side-menu/SideMenu";
-import "./style.css";
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import config from "../../config";

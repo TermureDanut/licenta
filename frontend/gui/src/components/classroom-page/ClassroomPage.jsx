@@ -1,4 +1,4 @@
-import "./style.css";
+import "../../style.css";
 import {useLocation} from "react-router-dom";
 import SideMenu from "../side-menu/SideMenu";
 

@@ -1,4 +1,4 @@
-import "./style.css";
+import "../../style.css";
 import {useNavigate} from "react-router-dom";
 
 const ClassroomCard = ({classroom}) => {

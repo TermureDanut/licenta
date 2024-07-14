@@ -1,0 +1,492 @@
+.welcome-page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.login-card {
+    height: 700px;
+    width: 700px;
+    margin-left: 10px;
+    background-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 0.3px black;
+}
+
+.input-bars {
+    height: 40px;
+    width: 250px;
+    font-size: 15px;
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    margin-bottom: 20px;
+}
+
+.login-button {
+    height: 40px;
+    width: 80px;
+    margin-top: 10px;
+    font-size: 15px;
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-button:hover {
+    background-color: grey;
+}
+
+.text_login_register {
+    font-size: 20px;
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    color: grey;
+}
+
+.mainArea {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.problemArea {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 60px;
+    padding-left: 20px;
+}
+
+.problemTags {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    padding-top: 10px;
+}
+
+.solvingArea {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 10px;
+}
+
+.idAndNameDiv {
+    height: 20%;
+    font-size: 30px;
+}
+
+.pbRequirement {
+    height: 30%;
+    font-size: 20px;
+}
+
+.codeArea {
+    height: 500px;
+    width: 99%;
+    font-size: 18px;
+    resize: none;
+}
+
+.buttonsDiv {
+    width: 98%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.executeArea {
+    height: 300px;
+    width: 99%;
+    font-size: 18px;
+    resize: none;
+}
+
+.menu {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+    background-color: #000080;
+}
+
+.buttons {
+    width: 200px;
+    height: 60px;
+    background-color: #000080;
+    margin-top: 10px;
+    color: white;
+    border: 0;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+.buttons:hover {
+    background-color: grey;
+}
+
+.problem-card {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 0.3px black;
+    border-radius: 5px;
+}
+
+.problemInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 80%;
+    box-sizing: border-box;
+    border-bottom: 0.3px solid black;
+}
+
+.solveButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 20%;
+}
+
+.buttonStyle {
+    width: 200px;
+    height: 60px;
+    margin-top: 10px;
+    margin-right: 10px;
+    color: black;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+.buttonStyle:hover {
+    background-color: grey;
+}
+
+.div-add-new {
+    width: 300px;
+    height: 300px;
+    background-color: #000080;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.classrooms {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    padding-top: 60px;
+    padding-left: 20px;
+}
+
+.classrooms > div {
+    display: flex;
+    flex-direction: row;
+}
+
+.header .text {
+    width: 300px;
+    font-size: 23px;
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    color: grey;
+    padding-left: 15px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+    background-color: white;
+    box-sizing: border-box;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+.exercisesArea {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    width: 100%;
+    padding-top: 60px;
+    padding-left: 20px;
+}
+
+.sideMenu {
+    width: 13%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.problemsArea {
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.miniHeader {
+    margin-left: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.text {
+    width: 150px;
+    font-size: 20px;
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    color: black;
+}
+
+.problems {
+    width: 100%;
+    max-height: 750px;
+}
+
+.classroomArea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 60px;
+    padding-left: 20px;
+}
+
+.classroomName {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.classroomNameStyle {
+    font-size: 20px;
+}
+
+.postCard {
+    width: 100%;
+    height: 120px;
+    font-size: 17px;
+    resize: none;
+}
+
+.postDiv {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.button {
+    font-size: 17px;
+    height: 40px;
+    width: 80px;
+}
+
+.postLists {
+}
+
+.classrooms > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.classroom-card {
+    width: 270px;
+    height: 270px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 0.3px black;
+    border-radius: 5px;
+}
+
+.creationArea {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 60px;
+    padding-left: 20px;
+}
+
+.titleLabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    height: 20%;
+}
+
+.textStyle {
+    font-size: 18px;
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    color: black;
+}
+
+.inputArea {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.buttonsArea {
+    display: flex;
+    justify-content: right;
+    flex-direction: row;
+    align-content: center;
+    width: 100%;
+    height: 20%;
+}
+
+.cancelButton {
+    background-color: #FF3632;
+}
+
+.cancelButton:hover {
+    background-color: red;
+}
+
+.addButton {
+    background-color: #00c04b;
+}
+
+.addButton:hover {
+    background-color: green;
+}
+
+.pDivStyle {
+    margin-right: 30px;
+}
+
+.inputStyle {
+    font-size: 17px;
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    color: black;
+    border-width: 1px;
+}
+
+.nameInputStyle {
+    width: 150px;
+    height: 35px;
+}
+
+.difStyle {
+    width: 150px;
+    height: 35px;
+}
+
+.diInputStyle {
+    width: 200px;
+    height: 140px;
+    resize: none;
+}
+
+.doInputStyle {
+    width: 200px;
+    height: 140px;
+    resize: none;
+}
+
+.cerintaInputStyle {
+    width: 800px;
+    height: 600px;
+    resize: none;
+}
+
+.pairContainer {
+    display: flex;
+    flex-direction: row;
+}

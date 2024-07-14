@@ -1,7 +1,7 @@
+import "../../style.css";
 import {useEffect, useState} from "react";
 import ClassroomCard from "../classroom-card/ClassroomCard";
 import SideMenu from "../side-menu/SideMenu";
-import "./style.css";
 import config from "../../config";
 
 const MainPage = () => {
